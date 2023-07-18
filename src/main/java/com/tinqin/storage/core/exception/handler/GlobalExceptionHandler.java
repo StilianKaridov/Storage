@@ -1,8 +1,8 @@
-package com.tinqin.storage.api.exception.handler;
+package com.tinqin.storage.core.exception.handler;
 
-import com.tinqin.storage.api.exception.ExistingItemException;
-import com.tinqin.storage.api.exception.NoSuchItemException;
-import com.tinqin.storage.api.exception.NegativeUpdatedQuantityException;
+import com.tinqin.storage.core.exception.ExistingItemException;
+import com.tinqin.storage.core.exception.NoSuchItemException;
+import com.tinqin.storage.core.exception.NegativeUpdatedQuantityException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

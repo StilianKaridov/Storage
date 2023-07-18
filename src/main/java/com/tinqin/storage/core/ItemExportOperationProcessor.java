@@ -1,7 +1,7 @@
 package com.tinqin.storage.core;
 
-import com.tinqin.storage.api.exception.NegativeUpdatedQuantityException;
-import com.tinqin.storage.api.exception.NoSuchItemException;
+import com.tinqin.storage.core.exception.NegativeUpdatedQuantityException;
+import com.tinqin.storage.core.exception.NoSuchItemException;
 import com.tinqin.storage.api.operations.export.ItemExportOperation;
 import com.tinqin.storage.api.operations.export.ItemExportRequest;
 import com.tinqin.storage.api.operations.export.ItemExportResponse;

@@ -1,4 +1,4 @@
-package com.tinqin.storage.api.exception;
+package com.tinqin.storage.core.exception;
 
 public class NegativeUpdatedQuantityException extends RuntimeException {
 

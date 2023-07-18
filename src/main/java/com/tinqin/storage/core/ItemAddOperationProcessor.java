@@ -1,6 +1,6 @@
 package com.tinqin.storage.core;
 
-import com.tinqin.storage.api.exception.ExistingItemException;
+import com.tinqin.storage.core.exception.ExistingItemException;
 import com.tinqin.storage.api.operations.add.ItemAddOperation;
 import com.tinqin.storage.api.operations.add.ItemAddRequest;
 import com.tinqin.storage.api.operations.add.ItemAddResponse;

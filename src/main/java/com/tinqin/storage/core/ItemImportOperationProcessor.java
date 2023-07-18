@@ -1,6 +1,6 @@
 package com.tinqin.storage.core;
 
-import com.tinqin.storage.api.exception.NoSuchItemException;
+import com.tinqin.storage.core.exception.NoSuchItemException;
 import com.tinqin.storage.api.operations.imprt.ItemImportOperation;
 import com.tinqin.storage.api.operations.imprt.ItemImportRequest;
 import com.tinqin.storage.api.operations.imprt.ItemImportResponse;
