@@ -1,11 +1,13 @@
 package com.tinqin.storage.core;
 
-import com.tinqin.storage.core.exception.ExistingItemException;
 import com.tinqin.storage.api.operations.add.ItemAddOperation;
 import com.tinqin.storage.api.operations.add.ItemAddRequest;
 import com.tinqin.storage.api.operations.add.ItemAddResponse;
+import com.tinqin.storage.core.exception.ExistingItemException;
+import com.tinqin.storage.core.exception.NoSuchItemException;
 import com.tinqin.storage.persistence.entity.ItemStorage;
 import com.tinqin.storage.persistence.repository.ItemStorageRepository;
+import com.tinqin.zoostore.restexport.ZooStoreRestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,23 @@ import java.util.UUID;
 public class ItemAddOperationProcessor implements ItemAddOperation {
 
     private final ItemStorageRepository itemStorageRepository;
+    private final ZooStoreRestClient zooStoreRestClient;
 
     @Autowired
-    public ItemAddOperationProcessor(ItemStorageRepository itemStorageRepository) {
+    public ItemAddOperationProcessor(ItemStorageRepository itemStorageRepository, ZooStoreRestClient zooStoreRestClient) {
         this.itemStorageRepository = itemStorageRepository;
+        this.zooStoreRestClient = zooStoreRestClient;
     }
 
     @Override
     public ItemAddResponse process(ItemAddRequest input) {
+        try {
+            zooStoreRestClient.getItemById(UUID.fromString(input.getItemId()));
+        } catch (Exception e) {
+            //Todo
+            throw new RuntimeException("Message!");
+        }
+
         BigDecimal price = input.getPrice();
 
         String itemId = input.getItemId();
