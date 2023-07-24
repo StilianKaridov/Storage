@@ -4,7 +4,6 @@ import com.tinqin.storage.api.operations.add.ItemAddOperation;
 import com.tinqin.storage.api.operations.add.ItemAddRequest;
 import com.tinqin.storage.api.operations.add.ItemAddResponse;
 import com.tinqin.storage.core.exception.ExistingItemException;
-import com.tinqin.storage.core.exception.NoSuchItemException;
 import com.tinqin.storage.persistence.entity.ItemStorage;
 import com.tinqin.storage.persistence.repository.ItemStorageRepository;
 import com.tinqin.zoostore.restexport.ZooStoreRestClient;
@@ -30,9 +29,8 @@ public class ItemAddOperationProcessor implements ItemAddOperation {
     @Override
     public ItemAddResponse process(ItemAddRequest input) {
         try {
-            zooStoreRestClient.getItemById(UUID.fromString(input.getItemId()));
+            zooStoreRestClient.getItemById(input.getItemId());
         } catch (Exception e) {
-            //Todo
             throw new RuntimeException("Message!");
         }
 
