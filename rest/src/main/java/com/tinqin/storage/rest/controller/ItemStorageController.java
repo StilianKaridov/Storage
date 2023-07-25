@@ -6,6 +6,9 @@ import com.tinqin.storage.api.operations.add.ItemAddResponse;
 import com.tinqin.storage.api.operations.export.ItemExportOperation;
 import com.tinqin.storage.api.operations.export.ItemExportRequest;
 import com.tinqin.storage.api.operations.export.ItemExportResponse;
+import com.tinqin.storage.api.operations.get.ItemGetByIdOperation;
+import com.tinqin.storage.api.operations.get.ItemGetByIdRequest;
+import com.tinqin.storage.api.operations.get.ItemGetByIdResponse;
 import com.tinqin.storage.api.operations.imprt.ItemImportOperation;
 import com.tinqin.storage.api.operations.imprt.ItemImportRequest;
 import com.tinqin.storage.api.operations.imprt.ItemImportResponse;
@@ -20,14 +23,19 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/storage/items")
 public class ItemStorageController {
 
+    private final ItemGetByIdOperation itemGetByIdOperation;
     private final ItemAddOperation itemAddOperation;
     private final ItemExportOperation itemExportOperation;
     private final ItemImportOperation itemImportOperation;
@@ -36,12 +44,13 @@ public class ItemStorageController {
 
     @Autowired
     public ItemStorageController(
-            ItemAddOperation itemAddOperation,
+            ItemGetByIdOperation itemGetByIdOperation, ItemAddOperation itemAddOperation,
             ItemExportOperation itemExportOperation,
             ItemImportOperation itemImportOperation,
             ItemRemoveOperation itemRemoveOperation,
             ItemUpdateOperation itemUpdateOperation
     ) {
+        this.itemGetByIdOperation = itemGetByIdOperation;
         this.itemAddOperation = itemAddOperation;
         this.itemExportOperation = itemExportOperation;
         this.itemImportOperation = itemImportOperation;
@@ -49,7 +58,19 @@ public class ItemStorageController {
         this.itemUpdateOperation = itemUpdateOperation;
     }
 
-    @PostMapping("/addItem")
+    @GetMapping("/{id}")
+    public ResponseEntity<ItemGetByIdResponse> getItemById(@PathVariable String id){
+        ItemGetByIdRequest itemRequest = ItemGetByIdRequest
+                .builder()
+                .itemId(id)
+                .build();
+
+        ItemGetByIdResponse response = this.itemGetByIdOperation.process(itemRequest);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
     public ResponseEntity<ItemAddResponse> addItem(@Valid @RequestBody ItemAddRequest itemAddRequest) {
         ItemAddResponse response = this.itemAddOperation.process(itemAddRequest);
 
@@ -57,28 +78,28 @@ public class ItemStorageController {
     }
 
     @Transactional
-    @DeleteMapping("/deleteItem")
+    @DeleteMapping
     public ResponseEntity<ItemRemoveResponse> removeItem(@Valid @RequestBody ItemRemoveRequest itemRemoveRequest) {
         ItemRemoveResponse response = this.itemRemoveOperation.process(itemRemoveRequest);
 
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/importItem")
+    @PatchMapping("/import")
     public ResponseEntity<ItemImportResponse> importItem(@Valid @RequestBody ItemImportRequest itemImportRequest) {
         ItemImportResponse response = this.itemImportOperation.process(itemImportRequest);
 
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/exportItem")
+    @PatchMapping("/export")
     public ResponseEntity<ItemExportResponse> exportItem(@Valid @RequestBody ItemExportRequest itemExportRequest) {
         ItemExportResponse response = this.itemExportOperation.process(itemExportRequest);
 
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/updatePrice")
+    @PatchMapping("/update")
     public ResponseEntity<ItemUpdatePriceResponse> updatePrice(@Valid @RequestBody ItemUpdatePriceRequest itemUpdatePriceRequest) {
         ItemUpdatePriceResponse response = this.itemUpdateOperation.process(itemUpdatePriceRequest);
 

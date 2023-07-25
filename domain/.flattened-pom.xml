@@ -13,12 +13,6 @@
   </licenses>
   <dependencies>
     <dependency>
-      <groupId>com.tinqin.zoostore</groupId>
-      <artifactId>restexport</artifactId>
-      <version>0.0.3-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.28</version>
