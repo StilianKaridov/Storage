@@ -25,9 +25,6 @@ public interface StorageRestClient {
     @RequestLine("POST /api/storage/items")
     ItemAddResponse addItem(@RequestBody ItemAddRequest itemAddRequest);
 
-    @RequestLine("DELETE /api/storage/items")
-    ItemRemoveResponse removeItem(@RequestBody ItemRemoveRequest itemRemoveRequest);
-
     @RequestLine("PATCH /api/storage/items/import")
     ItemImportResponse importItem(@RequestBody ItemImportRequest itemImportRequest);
 
@@ -36,4 +33,8 @@ public interface StorageRestClient {
 
     @RequestLine("PATCH /api/storage/items/update")
     ItemUpdatePriceResponse updatePrice(@RequestBody ItemUpdatePriceRequest itemUpdatePriceRequest);
+
+    @RequestLine("DELETE /api/storage/items")
+    ItemRemoveResponse removeItem(@RequestBody ItemRemoveRequest itemRemoveRequest);
+
 }

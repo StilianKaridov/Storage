@@ -77,14 +77,6 @@ public class ItemStorageController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @Transactional
-    @DeleteMapping
-    public ResponseEntity<ItemRemoveResponse> removeItem(@Valid @RequestBody ItemRemoveRequest itemRemoveRequest) {
-        ItemRemoveResponse response = this.itemRemoveOperation.process(itemRemoveRequest);
-
-        return ResponseEntity.ok(response);
-    }
-
     @PatchMapping("/import")
     public ResponseEntity<ItemImportResponse> importItem(@Valid @RequestBody ItemImportRequest itemImportRequest) {
         ItemImportResponse response = this.itemImportOperation.process(itemImportRequest);
@@ -102,6 +94,14 @@ public class ItemStorageController {
     @PatchMapping("/update")
     public ResponseEntity<ItemUpdatePriceResponse> updatePrice(@Valid @RequestBody ItemUpdatePriceRequest itemUpdatePriceRequest) {
         ItemUpdatePriceResponse response = this.itemUpdateOperation.process(itemUpdatePriceRequest);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Transactional
+    @DeleteMapping
+    public ResponseEntity<ItemRemoveResponse> removeItem(@Valid @RequestBody ItemRemoveRequest itemRemoveRequest) {
+        ItemRemoveResponse response = this.itemRemoveOperation.process(itemRemoveRequest);
 
         return ResponseEntity.ok(response);
     }
