@@ -5,6 +5,8 @@ import com.tinqin.storage.api.operations.add.ItemAddResponse;
 import com.tinqin.storage.api.operations.export.ItemExportRequest;
 import com.tinqin.storage.api.operations.export.ItemExportResponse;
 import com.tinqin.storage.api.operations.get.ItemGetByIdResponse;
+import com.tinqin.storage.api.operations.getlistofitems.ItemGetListByIdsRequest;
+import com.tinqin.storage.api.operations.getlistofitems.ItemGetListByIdsResponse;
 import com.tinqin.storage.api.operations.imprt.ItemImportRequest;
 import com.tinqin.storage.api.operations.imprt.ItemImportResponse;
 import com.tinqin.storage.api.operations.remove.ItemRemoveRequest;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Headers({"Content-Type: application/json"})
 public interface StorageRestClient {
+
+    @RequestLine("POST /api/storage/items/getItems")
+    ItemGetListByIdsResponse getCollectionOfItemsById(@RequestBody ItemGetListByIdsRequest itemIds);
 
     @RequestLine("GET /api/storage/items/{id}")
     ItemGetByIdResponse getItemById(@Param String id);

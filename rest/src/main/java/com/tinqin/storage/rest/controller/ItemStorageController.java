@@ -9,6 +9,9 @@ import com.tinqin.storage.api.operations.export.ItemExportResponse;
 import com.tinqin.storage.api.operations.get.ItemGetByIdOperation;
 import com.tinqin.storage.api.operations.get.ItemGetByIdRequest;
 import com.tinqin.storage.api.operations.get.ItemGetByIdResponse;
+import com.tinqin.storage.api.operations.getlistofitems.ItemGetListByIdsOperation;
+import com.tinqin.storage.api.operations.getlistofitems.ItemGetListByIdsRequest;
+import com.tinqin.storage.api.operations.getlistofitems.ItemGetListByIdsResponse;
 import com.tinqin.storage.api.operations.imprt.ItemImportOperation;
 import com.tinqin.storage.api.operations.imprt.ItemImportRequest;
 import com.tinqin.storage.api.operations.imprt.ItemImportResponse;
@@ -41,6 +44,7 @@ public class ItemStorageController {
     private final ItemImportOperation itemImportOperation;
     private final ItemRemoveOperation itemRemoveOperation;
     private final ItemUpdateOperation itemUpdateOperation;
+    private final ItemGetListByIdsOperation itemGetListByIdsOperation;
 
     @Autowired
     public ItemStorageController(
@@ -48,14 +52,22 @@ public class ItemStorageController {
             ItemExportOperation itemExportOperation,
             ItemImportOperation itemImportOperation,
             ItemRemoveOperation itemRemoveOperation,
-            ItemUpdateOperation itemUpdateOperation
-    ) {
+            ItemUpdateOperation itemUpdateOperation,
+            ItemGetListByIdsOperation itemGetListByIdsOperation) {
         this.itemGetByIdOperation = itemGetByIdOperation;
         this.itemAddOperation = itemAddOperation;
         this.itemExportOperation = itemExportOperation;
         this.itemImportOperation = itemImportOperation;
         this.itemRemoveOperation = itemRemoveOperation;
         this.itemUpdateOperation = itemUpdateOperation;
+        this.itemGetListByIdsOperation = itemGetListByIdsOperation;
+    }
+
+    @PostMapping("/getItems")
+    public ResponseEntity<ItemGetListByIdsResponse> getCollectionOfItemsById(@RequestBody ItemGetListByIdsRequest itemIds) {
+        ItemGetListByIdsResponse response = this.itemGetListByIdsOperation.process(itemIds);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
