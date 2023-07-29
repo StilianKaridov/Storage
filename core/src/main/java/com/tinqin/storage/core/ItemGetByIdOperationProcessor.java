@@ -30,8 +30,8 @@ public class ItemGetByIdOperationProcessor implements ItemGetByIdOperation {
 
         return ItemGetByIdResponse
                 .builder()
-                .id(itemStorage.getId())
-                .itemId(itemStorage.getItemId())
+                .id(String.valueOf(itemStorage.getId()))
+                .itemId(String.valueOf(itemStorage.getItemId()))
                 .price(itemStorage.getPrice())
                 .quantity(itemStorage.getQuantity())
                 .build();

@@ -18,9 +18,9 @@ import java.util.UUID;
 @Builder
 public class ItemGetByIdResponse implements OperationResponse {
 
-    private UUID id;
+    private String id;
 
-    private UUID itemId;
+    private String itemId;
 
     private BigDecimal price;
 
