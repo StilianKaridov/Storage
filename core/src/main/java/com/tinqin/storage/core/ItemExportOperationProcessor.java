@@ -1,10 +1,10 @@
 package com.tinqin.storage.core;
 
-import com.tinqin.storage.core.exception.NegativeUpdatedQuantityException;
-import com.tinqin.storage.core.exception.NoSuchItemException;
 import com.tinqin.storage.api.operations.export.ItemExportOperation;
 import com.tinqin.storage.api.operations.export.ItemExportRequest;
 import com.tinqin.storage.api.operations.export.ItemExportResponse;
+import com.tinqin.storage.core.exception.NegativeUpdatedQuantityException;
+import com.tinqin.storage.core.exception.NoSuchItemException;
 import com.tinqin.storage.persistence.entity.ItemStorage;
 import com.tinqin.storage.persistence.repository.ItemStorageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,17 @@ public class ItemExportOperationProcessor implements ItemExportOperation {
         int updatedQuantity = item.getQuantity() - quantity;
         if (updatedQuantity < 0) {
             throw new NegativeUpdatedQuantityException();
+        }
+
+        if (updatedQuantity == 0) {
+            this.itemStorageRepository.deleteById(item.getId());
+
+            return ItemExportResponse
+                    .builder()
+                    .itemId(itemId)
+                    .quantity(updatedQuantity)
+                    .price(item.getPrice())
+                    .build();
         }
 
         ItemStorage updated = ItemStorage
