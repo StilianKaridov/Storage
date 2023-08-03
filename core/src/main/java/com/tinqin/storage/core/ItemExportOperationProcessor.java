@@ -35,18 +35,7 @@ public class ItemExportOperationProcessor implements ItemExportOperation {
 
         int updatedQuantity = item.getQuantity() - quantity;
         if (updatedQuantity < 0) {
-            throw new NegativeUpdatedQuantityException();
-        }
-
-        if (updatedQuantity == 0) {
-            this.itemStorageRepository.deleteById(item.getId());
-
-            return ItemExportResponse
-                    .builder()
-                    .itemId(itemId)
-                    .quantity(updatedQuantity)
-                    .price(item.getPrice())
-                    .build();
+            throw new NegativeUpdatedQuantityException(item.getItemId().toString());
         }
 
         ItemStorage updated = ItemStorage

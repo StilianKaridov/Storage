@@ -11,6 +11,8 @@ import com.tinqin.storage.api.operations.imprt.ItemImportRequest;
 import com.tinqin.storage.api.operations.imprt.ItemImportResponse;
 import com.tinqin.storage.api.operations.remove.ItemRemoveRequest;
 import com.tinqin.storage.api.operations.remove.ItemRemoveResponse;
+import com.tinqin.storage.api.operations.sell.ItemsSellRequest;
+import com.tinqin.storage.api.operations.sell.ItemsSellResponse;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceRequest;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceResponse;
 import feign.Headers;
@@ -38,6 +40,9 @@ public interface StorageRestClient {
 
     @RequestLine("PATCH /api/storage/items/update")
     ItemUpdatePriceResponse updatePrice(@RequestBody ItemUpdatePriceRequest itemUpdatePriceRequest);
+
+    @RequestLine("PUT /api/storage/items/sell")
+    ItemsSellResponse sellItems(@RequestBody ItemsSellRequest itemsSellRequest);
 
     @RequestLine("DELETE /api/storage/items")
     ItemRemoveResponse removeItem(@RequestBody ItemRemoveRequest itemRemoveRequest);

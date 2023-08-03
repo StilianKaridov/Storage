@@ -18,6 +18,9 @@ import com.tinqin.storage.api.operations.imprt.ItemImportResponse;
 import com.tinqin.storage.api.operations.remove.ItemRemoveOperation;
 import com.tinqin.storage.api.operations.remove.ItemRemoveRequest;
 import com.tinqin.storage.api.operations.remove.ItemRemoveResponse;
+import com.tinqin.storage.api.operations.sell.ItemsSellOperation;
+import com.tinqin.storage.api.operations.sell.ItemsSellRequest;
+import com.tinqin.storage.api.operations.sell.ItemsSellResponse;
 import com.tinqin.storage.api.operations.update.ItemUpdateOperation;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceRequest;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceResponse;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +49,7 @@ public class ItemStorageController {
     private final ItemRemoveOperation itemRemoveOperation;
     private final ItemUpdateOperation itemUpdateOperation;
     private final ItemGetListByIdsOperation itemGetListByIdsOperation;
+    private final ItemsSellOperation itemsSellOperation;
 
     @Autowired
     public ItemStorageController(
@@ -53,7 +58,7 @@ public class ItemStorageController {
             ItemImportOperation itemImportOperation,
             ItemRemoveOperation itemRemoveOperation,
             ItemUpdateOperation itemUpdateOperation,
-            ItemGetListByIdsOperation itemGetListByIdsOperation) {
+            ItemGetListByIdsOperation itemGetListByIdsOperation, ItemsSellOperation itemsSellOperation) {
         this.itemGetByIdOperation = itemGetByIdOperation;
         this.itemAddOperation = itemAddOperation;
         this.itemExportOperation = itemExportOperation;
@@ -61,6 +66,7 @@ public class ItemStorageController {
         this.itemRemoveOperation = itemRemoveOperation;
         this.itemUpdateOperation = itemUpdateOperation;
         this.itemGetListByIdsOperation = itemGetListByIdsOperation;
+        this.itemsSellOperation = itemsSellOperation;
     }
 
     @PostMapping("/getItems")
@@ -71,7 +77,7 @@ public class ItemStorageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemGetByIdResponse> getItemById(@PathVariable String id){
+    public ResponseEntity<ItemGetByIdResponse> getItemById(@PathVariable String id) {
         ItemGetByIdRequest itemRequest = ItemGetByIdRequest
                 .builder()
                 .itemId(id)
@@ -106,6 +112,16 @@ public class ItemStorageController {
     @PatchMapping("/update")
     public ResponseEntity<ItemUpdatePriceResponse> updatePrice(@Valid @RequestBody ItemUpdatePriceRequest itemUpdatePriceRequest) {
         ItemUpdatePriceResponse response = this.itemUpdateOperation.process(itemUpdatePriceRequest);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Transactional
+    @PutMapping("/sell")
+    public ResponseEntity<ItemsSellResponse> sellItems(
+            @RequestBody ItemsSellRequest itemsSellRequest
+    ) {
+        ItemsSellResponse response = this.itemsSellOperation.process(itemsSellRequest);
 
         return ResponseEntity.ok(response);
     }
