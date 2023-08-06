@@ -26,7 +26,8 @@ public class ItemGetByIdOperationProcessor implements ItemGetByIdOperation {
         UUID itemId = UUID.fromString(input.getItemId());
 
         ItemStorage itemStorage = this.itemStorageRepository
-                .findFirstByItemId(itemId).orElseThrow(NoSuchItemException::new);
+                .findByItemId(itemId)
+                .orElseThrow(NoSuchItemException::new);
 
         return ItemGetByIdResponse
                 .builder()

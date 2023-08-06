@@ -28,15 +28,17 @@ public class ItemGetListByIdsOperationProcessor implements ItemGetListByIdsOpera
 
         List<ItemStorage> items = this.itemStorageRepository.findByItemIdIn(uuids);
 
-        List<ItemGetByIdResponse> mappedItems = items.stream().map(
-                i -> ItemGetByIdResponse
-                        .builder()
-                        .id(String.valueOf(i.getId()))
-                        .itemId(String.valueOf(i.getItemId()))
-                        .price(i.getPrice())
-                        .quantity(i.getQuantity())
-                        .build()
-        ).toList();
+        List<ItemGetByIdResponse> mappedItems = items
+                .stream()
+                .map(
+                        i -> ItemGetByIdResponse
+                                .builder()
+                                .id(String.valueOf(i.getId()))
+                                .itemId(String.valueOf(i.getItemId()))
+                                .price(i.getPrice())
+                                .quantity(i.getQuantity())
+                                .build()
+                ).toList();
 
         return ItemGetListByIdsResponse
                 .builder()
