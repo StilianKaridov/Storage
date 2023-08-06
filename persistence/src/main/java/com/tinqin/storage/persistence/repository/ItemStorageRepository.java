@@ -14,5 +14,7 @@ public interface ItemStorageRepository extends JpaRepository<ItemStorage, UUID> 
 
     Optional<ItemStorage> findFirstByItemId(UUID itemId);
 
+    Optional<ItemStorage> findByItemId(UUID itemId);
+
     List<ItemStorage> findByItemIdIn(Collection<UUID> ids);
 }
