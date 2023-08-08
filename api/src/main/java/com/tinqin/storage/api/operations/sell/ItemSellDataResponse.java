@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -18,11 +17,11 @@ import java.sql.Timestamp;
 @Builder
 public class ItemSellDataResponse implements OperationResponse {
 
-    private String userId;
-
     private String itemId;
 
     private Integer quantity;
 
     private BigDecimal price;
+
+    private BigDecimal priceWithDiscount;
 }
