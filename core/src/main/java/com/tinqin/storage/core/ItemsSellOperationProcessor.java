@@ -10,6 +10,7 @@ import com.tinqin.storage.persistence.repository.SoldItemsHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -26,23 +27,30 @@ public class ItemsSellOperationProcessor implements ItemsSellOperation {
 
     @Override
     public ItemsSellResponse process(ItemsSellRequest input) {
+        UUID userId = UUID.fromString(input.getUserId());
+
         input.getItems()
                 .forEach(item -> {
-                    ItemExportRequest build = ItemExportRequest
+                    String itemId = item.getItemId();
+                    BigDecimal price = item.getPrice();
+                    BigDecimal priceWithDiscount = item.getPriceWithDiscount();
+                    Integer quantity = item.getQuantity();
+
+                    ItemExportRequest itemExport = ItemExportRequest
                             .builder()
-                            .itemId(item.getItemId())
-                            .quantity(item.getQuantity())
+                            .itemId(itemId)
+                            .quantity(quantity)
                             .build();
 
-
-                    this.itemExportOperation.process(build);
+                    this.itemExportOperation.process(itemExport);
 
                     SoldItemsHistory itemHistory = SoldItemsHistory
                             .builder()
-                            .userId(UUID.fromString(item.getUserId()))
-                            .itemId(UUID.fromString(item.getItemId()))
-                            .price(item.getPrice())
-                            .quantity(item.getQuantity())
+                            .userId(userId)
+                            .itemId(UUID.fromString(itemId))
+                            .priceWithDiscount(priceWithDiscount)
+                            .price(price)
+                            .quantity(quantity)
                             .build();
 
                     this.soldItemsHistoryRepository.save(itemHistory);
