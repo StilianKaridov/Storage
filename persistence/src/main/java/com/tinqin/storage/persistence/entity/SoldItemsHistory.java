@@ -45,4 +45,7 @@ public class SoldItemsHistory {
 
     @Column(nullable = false)
     private BigDecimal price;
+
+    @Column(nullable = false)
+    private BigDecimal priceWithDiscount;
 }
