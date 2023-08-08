@@ -17,5 +17,7 @@ import java.util.List;
 @Builder
 public class ItemsSellRequest implements OperationRequest {
 
+    private String userId;
+
     private List<ItemSellDataResponse> items;
 }
