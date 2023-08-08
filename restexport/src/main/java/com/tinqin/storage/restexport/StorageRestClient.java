@@ -15,6 +15,7 @@ import com.tinqin.storage.api.operations.sell.ItemsSellRequest;
 import com.tinqin.storage.api.operations.sell.ItemsSellResponse;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceRequest;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceResponse;
+import com.tinqin.storage.api.operations.usercheckfororders.UserCheckForOrdersResponse;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
@@ -23,11 +24,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Headers({"Content-Type: application/json"})
 public interface StorageRestClient {
 
-    @RequestLine("POST /api/storage/items/getItems")
-    ItemGetListByIdsResponse getCollectionOfItemsById(@RequestBody ItemGetListByIdsRequest itemIds);
-
     @RequestLine("GET /api/storage/items/{id}")
     ItemGetByIdResponse getItemById(@Param String id);
+
+    @RequestLine("GET /api/storage/items/user/{id}")
+    UserCheckForOrdersResponse checkIfUserHasOrders(@Param String id);
+
+    @RequestLine("POST /api/storage/items/getItems")
+    ItemGetListByIdsResponse getCollectionOfItemsById(@RequestBody ItemGetListByIdsRequest itemIds);
 
     @RequestLine("POST /api/storage/items")
     ItemAddResponse addItem(@RequestBody ItemAddRequest itemAddRequest);

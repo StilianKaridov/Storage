@@ -24,6 +24,9 @@ import com.tinqin.storage.api.operations.sell.ItemsSellResponse;
 import com.tinqin.storage.api.operations.update.ItemUpdateOperation;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceRequest;
 import com.tinqin.storage.api.operations.update.ItemUpdatePriceResponse;
+import com.tinqin.storage.api.operations.usercheckfororders.UserCheckForOrdersOperation;
+import com.tinqin.storage.api.operations.usercheckfororders.UserCheckForOrdersRequest;
+import com.tinqin.storage.api.operations.usercheckfororders.UserCheckForOrdersResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +53,7 @@ public class ItemStorageController {
     private final ItemUpdateOperation itemUpdateOperation;
     private final ItemGetListByIdsOperation itemGetListByIdsOperation;
     private final ItemsSellOperation itemsSellOperation;
+    private final UserCheckForOrdersOperation userCheckForOrdersOperation;
 
     @Autowired
     public ItemStorageController(
@@ -58,7 +62,10 @@ public class ItemStorageController {
             ItemImportOperation itemImportOperation,
             ItemRemoveOperation itemRemoveOperation,
             ItemUpdateOperation itemUpdateOperation,
-            ItemGetListByIdsOperation itemGetListByIdsOperation, ItemsSellOperation itemsSellOperation) {
+            ItemGetListByIdsOperation itemGetListByIdsOperation,
+            ItemsSellOperation itemsSellOperation,
+            UserCheckForOrdersOperation userCheckForOrdersOperation
+    ) {
         this.itemGetByIdOperation = itemGetByIdOperation;
         this.itemAddOperation = itemAddOperation;
         this.itemExportOperation = itemExportOperation;
@@ -67,13 +74,7 @@ public class ItemStorageController {
         this.itemUpdateOperation = itemUpdateOperation;
         this.itemGetListByIdsOperation = itemGetListByIdsOperation;
         this.itemsSellOperation = itemsSellOperation;
-    }
-
-    @PostMapping("/getItems")
-    public ResponseEntity<ItemGetListByIdsResponse> getCollectionOfItemsById(@RequestBody ItemGetListByIdsRequest itemIds) {
-        ItemGetListByIdsResponse response = this.itemGetListByIdsOperation.process(itemIds);
-
-        return ResponseEntity.ok(response);
+        this.userCheckForOrdersOperation = userCheckForOrdersOperation;
     }
 
     @GetMapping("/{id}")
@@ -84,6 +85,25 @@ public class ItemStorageController {
                 .build();
 
         ItemGetByIdResponse response = this.itemGetByIdOperation.process(itemRequest);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserCheckForOrdersResponse> checkIfUserHasOrders(@PathVariable String id) {
+        UserCheckForOrdersRequest userRequest = UserCheckForOrdersRequest
+                .builder()
+                .userId(id)
+                .build();
+
+        UserCheckForOrdersResponse response = this.userCheckForOrdersOperation.process(userRequest);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/getItems")
+    public ResponseEntity<ItemGetListByIdsResponse> getCollectionOfItemsById(@RequestBody ItemGetListByIdsRequest itemIds) {
+        ItemGetListByIdsResponse response = this.itemGetListByIdsOperation.process(itemIds);
 
         return ResponseEntity.ok(response);
     }
