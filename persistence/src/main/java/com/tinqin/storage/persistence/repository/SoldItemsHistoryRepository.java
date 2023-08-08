@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface SoldItemsHistoryRepository extends JpaRepository<SoldItemsHistory, UUID> {
+    boolean existsByUserId(UUID userId);
 }
